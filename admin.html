@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {background-color: powderblue;font-family: Arial, sans-serif;}
+        p {margin: 10px 0;}
+        h1 {color: blue;text-align: center;font-size: 50px;}
+        .fundraiser-container {width: 800px;margin: auto;text-align: center;background-color: #FFF4A3;padding: 20px;border-radius: 10px;box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);margin-bottom: 20px;}
+        .fundraiser-image {width: 500px;height: 250px;border-radius: 10px;}
+        .progress-bar-container {width: 100%;background-color: lightgrey;border-radius: 5px;overflow: hidden;margin: 10px 0;}
+        .progress-bar {height: 50px;background-color: green;width: 0;transition: width 0.5s;}
+        nav {text-align: center;margin: 20px 0;}
+        nav span,
+        nav a {font-size: 20px;margin: 0 10px;text-decoration: none;color: black;}
+        nav a:hover {text-decoration: underline;}
+        img {border-radius: 10px;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Management Interface</h1>
+
+        <!-- Categories Section -->
+        <section id="categories">
+            <h2>Manage Categories</h2>
+            <form id="categoryForm">
+                <input type="text" id="categoryName" placeholder="Category Name" required>
+                <button type="submit">Add Category</button>
+            </form>
+            <table id="categoryTable">
+                <thead>
+                    <tr>
+                        <th>Category ID</th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Category rows will be added here dynamically -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Donations Section -->
+        <section id="donations">
+            <h2>Manage Donations</h2>
+            <form id="donationForm">
+                <input type="text" id="donationGiver" placeholder="Giver's Name" required>
+                <input type="number" id="donationAmount" placeholder="Donation Amount" required>
+                <input type="number" id="fundraiserId" placeholder="Fundraiser ID" required>
+                <button type="submit">Add Donation</button>
+            </form>
+            <table id="donationTable">
+                <thead>
+                    <tr>
+                        <th>Donation ID</th>
+                        <th>Giver</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Donation rows will be added here dynamically -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Fundraisers Section -->
+        <section id="fundraisers">
+            <h2>Manage Fundraisers</h2>
+            <form id="fundraiserForm">
+                <input type="text" id="organizer" placeholder="Organizer" required>
+                <input type="text" id="caption" placeholder="Caption" required>
+                <input type="number" id="targetFunding" placeholder="Target Funding" required>
+                <input type="number" id="currentFunding" placeholder="Current Funding" required>
+                <input type="text" id="city" placeholder="City" required>
+                <button type="submit">Add Fundraiser</button>
+            </form>
+            <table id="fundraiserTable">
+                <thead>
+                    <tr>
+                        <th>Fundraiser ID</th>
+                        <th>Organizer</th>
+                        <th>Caption</th>
+                        <th>Target Funding</th>
+                        <th>Current Funding</th>
+                        <th>City</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Fundraiser rows will be added here dynamically -->
+                </tbody>
+            </table>
+        </section>
+    </div>
+    <script>
+        document.getElementById('userForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            addUser(username, email);
+            this.reset();
+        });
+
+        function addUser(username, email) {
+            const table = document.getElementById('userTable').getElementsByTagName('tbody')[0];
+            const row = table.insertRow();
+
+            const cellUsername = row.insertCell(0);
+            const cellEmail = row.insertCell(1);
+            const cellActions = row.insertCell(2);
+
+            cellUsername.textContent = username;
+            cellEmail.textContent = email;
+            cellActions.innerHTML = `
+                <button class="edit-btn" onclick="editUser(this)">Edit</button>
+                <button class="delete-btn" onclick="deleteUser(this)">Delete</button>
+            `;
+        }
+
+        function editUser(button) {
+            const row = button.parentNode.parentNode;
+            document.getElementById('username').value = row.cells[0].textContent;
+            document.getElementById('email').value = row.cells[1].textContent;
+            deleteUser(button);  // Remove the current row so we can update it
+        }
+
+        function deleteUser(button) {
+            const row = button.parentNode.parentNode;
+            row.remove();
+        }
+    </script>
+</body>
+</html>
